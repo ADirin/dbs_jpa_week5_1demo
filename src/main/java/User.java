@@ -1,35 +1,51 @@
 import javax.persistence.*;
 import java.time.LocalDate;
 
-//to map the user class to database we use annotation after adding the core hibornate
 @Entity
-//add the table name annotation
-@Table (name="Users")
+@Table(name = "user_account") // Consider using a different name if "users" causes issues
 public class User {
-    // this is for primary ket
+
     @Id
-    // telling that this is a identity key for the record so do not generate other
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-     private Long id;
-    @Column(name= "Name")
-    private String name;
+    private Long id;
 
-     @Column(name= "Birth_Date")
-     private LocalDate birthDate;
+    private String name; // Defaults to column "name"
 
-     public User(){}
+    @Column(name = "Birth_Date")
+    private LocalDate birthDate;
 
-    public User (String name, LocalDate birthDate){
-         this.name= name;
-         this.birthDate =birthDate;
+    // Default constructor (required by Hibernate)
+    public User() {}
 
+    // Constructor without ID (useful for creating new instances)
+    public User(String name, LocalDate birthDate) {
+        this.name = name;
+        this.birthDate = birthDate;
     }
 
-    public String getName() {
-         return name;
+    // Constructor with ID (optional but useful for debugging)
+    public User(Long id, String name, LocalDate birthDate) {
+        this.id = id;
+        this.name = name;
+        this.birthDate = birthDate;
     }
 
-    public LocalDate getBirthDate() {
-         return birthDate;
+    // Getters
+    public Long getId() { return id; }
+    public String getName() { return name; }
+    public LocalDate getBirthDate() { return birthDate; }
+
+    // Setters (important for Hibernate)
+    public void setId(Long id) { this.id = id; }
+    public void setName(String name) { this.name = name; }
+    public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate; }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", birthDate=" + birthDate +
+                '}';
     }
 }
